@@ -1,0 +1,13 @@
+@bg: #000; // Declare
+@fg: #fff;
+
+@media (print) {
+  @bg: #fff; // Override
+  @fg: #000;
+}
+
+.page {
+  background-color: @bg; // Use
+  color: @fg;
+  width: 100% - 100px; // Bonus
+}

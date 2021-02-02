@@ -1,0 +1,17 @@
+:root {
+  --bg: #000;
+  --fg: #fff;
+}
+
+@media (print) {
+  :root {
+    --bg: #fff;
+    --fg: #000;
+  }
+}
+
+.page {
+  background-color: var(--bg);
+  color: var(--fg);
+  width: calc(100% - 100px);
+}

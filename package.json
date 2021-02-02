@@ -1,0 +1,46 @@
+{
+  "name": "less-plugin-css-variables-theme",
+  "version": "1.0.0",
+  "description": "a less plugin to make theme using css variables work with less functions",
+  "main": "lib/index.js",
+  "author": "Arvin Xu<arvinx@foxmail.com>",
+  "scripts": {
+    "build": "father-build",
+    "test": "jest",
+    "cov": "jest --coverage",
+    "lint": "yarn lint-eslint && yarn tsc",
+    "tsc": "tsc -p tsconfig-check.json",
+    "lint-eslint": "eslint --cache --fix --ext .js,.jsx,.ts,.tsx --format=pretty src",
+    "clean": "rm -rf es lib dist build coverage src/.umi* .eslintcache"
+  },
+  "homepage": "https://github.com/arvinxx/less-plugin-css-variables-theme#readme",
+  "bugs": {
+    "url": "https://github.com/arvinxx/less-plugin-css-variables-theme/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
+    "@types/less": "^3.0.2",
+    "@umijs/fabric": "^2.5.6",
+    "babel-plugin-add-module-exports": "^1.0.4",
+    "commitlint": "^11.0.0",
+    "commitlint-config-gitmoji": "^2.2.1",
+    "conventional-changelog-gitmoji-config": "^1.4.0",
+    "diff": "^5.0.0",
+    "eslint": "^7.19.0",
+    "less": "~3.13.1",
+    "father-build": "^1.19.1",
+    "husky": "^4.3.8",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "semantic-release": "^17.3.7",
+    "ts-jest": "^26.5.0",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
+  }
+}

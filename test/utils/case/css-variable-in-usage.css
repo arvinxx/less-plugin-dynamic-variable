@@ -1,0 +1,13 @@
+:root {
+  --base-number: 10;
+  --multiply-number: 20;
+}
+
+:root[scope="k"] {
+  --base-number: 2;
+  --multiply-number: 4;
+}
+
+.use {
+  color: var(--base-number);
+}

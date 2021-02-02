@@ -1,0 +1,17 @@
+@base-number: 10;
+
+:root {
+  --base-number: @base-number;
+  --multiply-number: multiplyTwo(@base-number);
+}
+
+:root[scope="k"] {
+  @base-number: 2;
+
+  --base-number: @base-number;
+  --multiply-number: multiplyTwo(@base-number);
+}
+
+.use {
+  color: @base-number;
+}
