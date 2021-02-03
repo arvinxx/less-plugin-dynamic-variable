@@ -3,7 +3,7 @@
   --multiply-number: 20;
 }
 
-:root[scope="k"] {
+:root[scope='local'] {
   --base-number: 2;
   --multiply-number: 4;
 }

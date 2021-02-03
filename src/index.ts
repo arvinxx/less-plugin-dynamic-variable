@@ -1,10 +1,15 @@
+import { cosmiconfigSync } from 'cosmiconfig';
 import Processor from './postProcessor';
-import functions from './functions';
+import generateCssVariable from './generateCssVariable';
+
+const explorer = cosmiconfigSync('dynamic-variable');
+const { config = { variables: {} } } = explorer.search() || {};
 
 const plugin: Less.Plugin = {
-  install (less, pluginManager) {
-    less.functions.functionRegistry.addMultiple(functions(less));
-    pluginManager.addPostProcessor(new Processor());
+  install(less, manager) {
+    manager.addVisitor(generateCssVariable(less, config));
+    // manager.addPostProcessor(new Processor());
   },
 };
+
 export default plugin;

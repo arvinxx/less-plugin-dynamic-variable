@@ -1,6 +1,6 @@
 export default class Processor implements Less.PreProcessor {
-  process(css) {
-    console.log(css);
+  process(css, extra) {
+    console.log(extra);
     return css;
   }
 }

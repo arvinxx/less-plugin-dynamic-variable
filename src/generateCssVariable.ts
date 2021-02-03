@@ -1,22 +1,19 @@
-// const cosmiconfig = require("cosmiconfig");
-//
-// const explorer = cosmiconfig("less-plugin-custom-properties");
-
-const { config = { variables: {} } } = {};
-
-const vistor = ({
-  tree: {
-    Call,
-    Anonymous,
-    Expression,
-    Ruleset,
-    Declaration,
-    Selector,
-    Element,
-    Combinator,
-  },
-  visitors,
-}: any) => {
+const visitor = (
+  {
+    tree: {
+      Call,
+      Anonymous,
+      Expression,
+      Ruleset,
+      Declaration,
+      Selector,
+      Element,
+      Combinator,
+    },
+    visitors,
+  }: any,
+  config,
+) => {
   const call = (name, ...args) => new Call(name, [new Expression(args)]);
 
   class Visitor {
@@ -31,20 +28,27 @@ const vistor = ({
     }
 
     run(root) {
-      console.log(root);
       return this.native.visit(root);
     }
 
     /**
-     * 访问变量
+     * 访问使用中的变量
      * @param node
      */
     visitVariable(node) {
-      console.log(node);
-      console.log(new Anonymous(node.name.replace(/^@/, '--')));
+      // 这个是被调用的 variable
       return call('var', new Anonymous(node.name.replace(/^@/, '--')));
     }
 
+    /**
+     * 保留计算公式
+     *
+     * 100% - 100px
+     * ⬇️⬇️⬇️
+     * calc(100% - 100px)
+     *
+     * @param node
+     */
     visitOperation(node) {
       return call(
         'calc',
@@ -54,26 +58,35 @@ const vistor = ({
       );
     }
 
+    /**
+     * 处理负数值
+     * @param node
+     */
     visitNegative(node) {
       return call('calc', new Anonymous('-1'), new Anonymous('*'), node.value);
     }
 
     /**
-     * 用于放文档相应的声明对象的方法
+     * 修改声明对象的方法
      * @param node
      */
     visitDeclaration(node) {
+      // 如果不是 @ 开头的node,直接过滤返回
       if (!(typeof node.name === 'string') || !node.name.match(/^@/)) {
         return node;
       }
 
+      // 将原本 @var 替换成 -> --var
       const declaration = new Declaration(
         node.name.replace(/^@/, '--'),
         node.value,
       );
 
       if (
+        // 如果节点处于 Root 层级
         node.parent.root ||
+        // 或者在 Media 类型下面,且 media 的父级是顶级
+        // Media 是什么类型?
         (node.parent.parent &&
           node.parent.parent.type === 'Media' &&
           node.parent.parent.parent.root)
@@ -87,31 +100,8 @@ const vistor = ({
       return declaration;
     }
   }
+
   return new Visitor();
 };
 
-const plugin: Less.Plugin = {
-  install(less, manager) {
-    const { Call, Anonymous, Expression } = less.tree;
-
-    const call = (name, ...args) => new Call(name, [new Expression(args)]);
-
-    manager.addVisitor(vistor(less));
-
-    less.functions.functionRegistry.add('external', (variable) => {
-      if (variable.type !== 'Keyword') {
-        return call('var', variable);
-      }
-
-      const name = variable.value.replace(/^--/, '');
-
-      if (!(name in config.variables)) {
-        return call('var', variable);
-      }
-
-      return new Anonymous(String(config.variables[name]));
-    });
-  },
-};
-
-export default plugin;
+export default visitor;

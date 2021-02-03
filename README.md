@@ -1,61 +1,60 @@
-# less-plugin-css-variable-theme
+(⚠️WIP) still unavailable
 
-Make css variables work with function
+# less-plugin-dynamic-variable
 
-## lessc usage
+Make less variable dynamic by css variable, compatible with less function
 
 ```shell
-npm i -D less-plugin-css-variable-theme
+npm i -D less-plugin-dynamic-variable
 ```
 
 or
 
 ```shell
-yarn add less-plugin-css-variable-theme -D
+yarn add -D less-plugin-dynamic-variable
 ```
+
+## lessc usage
 
 and then on the command line,
 
 ```
-lessc file.less --advanced-color-functions
+lessc file.less --dynamic-variable
 ```
 
 ## Programmatic usage
 
-```typescript
-const LessPluginCssVariablesWithFunctions = require("less-plugin-css-variable-theme"),
-  CssVariablesWithFunctions = new LessPluginCssVariablesWithFunctions();
+```js
+const LessPluginCssDynamicVariable = require('less-plugin-dynamic-variable');
+
 less
-  .render(lessString, { plugins: [CssVariablesWithFunctions] })
+  .render(lessString, { plugins: [LessPluginCssDynamicVariable] })
   .then(({ css }) => {
     console.log(css);
   });
 ```
 
-## Browser usage
-
-Browser usage is not supported at this time.
-
 ## Example
 
+```js
+// dynamtic-variable.config.js
+module.exports = {
+  variable: ['base-number', 'multiply-number'],
+};
+```
+
 ```less
-// multiplyTwo is a function to multiply number by 2
+// multiplyTwo is a function to multiply number by 2, just for example
 @base-number: 10;
+@multiply-number: multiplyTwo(@base-number);
 
-:root {
-  --base-number: @base-number;
-  --multiply-number: multiplyTwo(@base-number);
-}
-
-:root[scope="k"] {
+[scope='local'] {
   @base-number: 2;
-
-  --base-number: @base-number;
-  --multiply-number: multiplyTwo(@base-number);
 }
 
 .use {
-  color: @base-number;
+  base: @base-number;
+  multiply: @multiply-number;
 }
 ```
 
@@ -67,12 +66,13 @@ outputs:
   --multiply-number: 20;
 }
 
-:root[scope="k"] {
+:root[scope='local'] {
   --base-number: 2;
   --multiply-number: 4;
 }
 
 .use {
   color: var(--base-number);
+  multiply: var(--multiply-number);
 }
 ```

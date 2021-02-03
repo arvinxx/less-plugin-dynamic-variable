@@ -1,20 +1,25 @@
-import less from "less";
-import plugin from "../src";
-import tempPlugin from "../src/to-css-variable";
+import plugin from '../src';
 
-import { cssVariableInUsage, handleVariableInUsage } from "./utils";
+import {
+  cssVariableInUsage,
+  generateCssVariable,
+  generateCssVariableWithFunc,
+  lessRender,
+} from './utils';
 
-test("使用时 保留 css variables", async () => {
-  const { css } = await less.render(cssVariableInUsage.less, {
-    plugins: [plugin],
-  });
-  expect(css).toEqual(cssVariableInUsage.css);
+// test('keep css variables in usage', async () => {
+//   const css = await lessRender(cssVariableInUsage.less, [plugin]);
+//   expect(css).toEqual(cssVariableInUsage.css);
+// });
+
+test('transform less variable to css variable', async () => {
+  const css = await lessRender(generateCssVariable.less, [plugin]);
+
+  expect(css).toEqual(generateCssVariable.css);
 });
 
-test("可转换 less 变量", async () => {
-  const { css } = await less.render(handleVariableInUsage.less, {
-    plugins: [tempPlugin],
-  });
+test('transform less variable to css variable with function', async () => {
+  const css = await lessRender(generateCssVariableWithFunc.less, [plugin]);
 
-  expect(css).toEqual(handleVariableInUsage.css);
+  expect(css).toEqual(generateCssVariableWithFunc.css);
 });
