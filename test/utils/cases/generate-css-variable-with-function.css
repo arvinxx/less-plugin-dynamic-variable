@@ -1,0 +1,15 @@
+:root {
+  --base-number: 10;
+}
+:root {
+  --multiply-number: 20;
+}
+
+:root[scope='local'] {
+  --base-number: 2;
+  --multiply-number: 4;
+}
+.use {
+  color: var(--base-number);
+  multiply: var(--multiply-number);
+}

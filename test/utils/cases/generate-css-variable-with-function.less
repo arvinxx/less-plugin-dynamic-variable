@@ -1,0 +1,11 @@
+@base-number: 10;
+@multiply-number: multiplyTwo(@base-number);
+
+:root[scope='local'] {
+  @base-number: 2;
+}
+
+.use {
+  color: @base-number;
+  multiply: @multiply-number;
+}
