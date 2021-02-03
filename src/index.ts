@@ -8,7 +8,7 @@ const { config = { variables: {} } } = explorer.search() || {};
 const plugin: Less.Plugin = {
   install(less, manager) {
     manager.addVisitor(generateCssVariable(less, config));
-    // manager.addPostProcessor(new Processor());
+    manager.addPostProcessor(new Processor());
   },
 };
 

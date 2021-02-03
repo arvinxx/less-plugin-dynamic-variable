@@ -36,6 +36,7 @@ less
 
 ## Example
 
+configuration variable to be dynamic
 ```js
 // dynamtic-variable.config.js
 module.exports = {
@@ -43,6 +44,7 @@ module.exports = {
 };
 ```
 
+input:
 ```less
 // multiplyTwo is a function to multiply number by 2, just for example
 @base-number: 10;
