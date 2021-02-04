@@ -7,27 +7,27 @@ import { Visitor } from '../src/generateCssVariable';
 const { Value, Declaration, Ruleset, Expression, Selector } = tree;
 describe('Visitor', () => {
   const visitor = new Visitor(tree, visitors);
-  describe('visitVariable', () => {
-    it('转换 @less 为 var(--less)', () => {
-      const variable = visitor.visitVariable({ name: '@less' });
-
-      expect(variable).toEqual({
-        calc: false,
-        name: 'var',
-        args: [
-          {
-            value: [
-              {
-                allowRoot: true,
-                rulesetLike: false,
-                value: '--less',
-              },
-            ],
-          },
-        ],
-      });
-    });
-  });
+  // describe('visitVariable', () => {
+    // it('转换 @less 为 var(--less)', () => {
+    //   const variable = visitor.visitVariable({ name: '@less' });
+    //
+    //   expect(variable).toEqual({
+    //     calc: false,
+    //     name: 'var',
+    //     args: [
+    //       {
+    //         value: [
+    //           {
+    //             allowRoot: true,
+    //             rulesetLike: false,
+    //             value: '--less',
+    //           },
+    //         ],
+    //       },
+    //     ],
+    //   });
+    // });
+  // });
 
   describe('visitDeclaration', () => {
     it('为 less 变量创建 css 变量', () => {
