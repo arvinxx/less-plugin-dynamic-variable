@@ -30,7 +30,6 @@ export class Visitor {
   //     new this.tree.Anonymous(node.name.replace(/^@/, '--')),
   //   );
   // }
-
   /**
    * 保留计算公式
    *
@@ -90,13 +89,17 @@ export class Visitor {
     ) {
       const { Ruleset, Selector, Element, Combinator } = this.tree;
 
-      return [
-        node,
-        new Ruleset(
-          [new Selector([new Element(new Combinator(' '), ':root')], [])],
-          [declaration],
-        ),
-      ];
+      return new Ruleset(
+        // new Element('&'),
+        [new Selector(new Element('&'))],
+        [
+          node,
+          new Ruleset(
+            [new Selector([new Element(new Combinator(' '), ':root')], [])],
+            [declaration],
+          ),
+        ],
+      );
     }
 
     return declaration;
